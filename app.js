@@ -113,6 +113,59 @@ const DEBRIEF = [
   },
 ];
 
+const PROCESS_SUMMARIES = {
+  ilv: {
+    ai: [
+      'Started with basic content notes outlining the key learning points.',
+      'Content notes were automatically fed to an AI agent to convert to a script.',
+      'The script and a single presenter image were then used with AI to generate the finished video.'
+    ],
+    hybrid: [
+      'A writer developed and refined the script first.',
+      'That approved script and an image were then used with AI to generate the video.',
+      'A small manual timing adjustment was made before export.'
+    ],
+    human: [
+      'A human writer drafted the script and refined it through editing.',
+      'The presenter was recorded in a studio setting.',
+      'The footage was then edited and finished by hand for the final video.'
+    ]
+  },
+  pdf: {
+    ai: [
+      'A prompt and custom Skill were used with AI to generate the guide.',
+      'Supporting visuals were then inserted to replace placeholders.',
+      'AI was used to check accessibility for e-readers, then exported.'
+    ],
+    hybrid: [
+      'A prompt and custom Skill were used with AI to generate the guide.',
+      'Supporting visuals were then inserted to replace placeholders.',
+      'A human editor revised the content before it was exported.'
+    ],
+    human: [
+      'The guide was outlined and written manually around the target use case.',
+      'The pages were built by hand in a presentation-style document.',
+      'The content was then edited and proofed manually before export.'
+    ]
+  },
+  anim: {
+    ai: [
+      'A prompt and custom Skill were used with AI to generate the script and storyboard for the concept.',
+      'That storyboard and additional custom Skills were then turned into a first-pass animated video with AI.',
+      'The draft was then refined through additional revision passes using AI and exported.'
+    ],
+    hybrid: [
+      'The dialogue was written by a human writer.',
+      'An initial storyboard was generated with AI and then manually revised to better match the intended vision.',
+      'The animation was built using the revised storyboard and custom Skills in AI and then polished through a mix of assisted and manual timing and visual adjustments.'
+    ],
+    human: [
+      'A human wrote and edited the script and on-screen visual storyboard.',
+      'The visual motion design and animation were interpreted and created by hand by a professional video editor.'
+    ]
+  }
+};
+
 // ── State ──────────────────────────────────────────────────────
 let currentStep = 0;  // 0 = welcome, 1–7 = content steps, 8 = debrief, 9 = thank you
 let groupIndex  = 0;
@@ -361,17 +414,44 @@ function renderDebrief(container) {
           <h4>Explainer Video</h4>
           <p>The explainer video you watched was created using the method below.</p>
           <span class="badge ${d.ilv.badge}">${d.ilv.label}</span>
+          ${renderProcessDisclosure('ilv', d.ilv.method)}
         </div>
         <div class="debrief-item">
           <h4>Use Case Guide</h4>
           <p>The use case guide you reviewed was created using the method below.</p>
           <span class="badge ${d.pdf.badge}">${d.pdf.label}</span>
+          ${renderProcessDisclosure('pdf', d.pdf.method)}
         </div>
         <div class="debrief-item">
           <h4>Animated Concept Video</h4>
           <p>The animated conceptual video you watched was created using the method below.</p>
           <span class="badge ${d.anim.badge}">${d.anim.label}</span>
+          ${renderProcessDisclosure('anim', d.anim.method)}
         </div>
+      </div>
+
+      <div class="card debrief-reflection">
+        <h3>Why This Matters</h3>
+        <p>
+          AI-generated content is getting better quickly, but "good enough" is not the same as
+          genuinely valuable. For learning experiences especially, we want to understand where
+          people feel content is clear, credible, engaging, and worth their time, and where it
+          starts to feel thin, generic, or less trustworthy.
+        </p>
+        <p>
+          That line matters because AI can help teams move faster, explore more ideas, and produce
+          content at a scale that would otherwise be difficult. But speed only matters if the end
+          result still feels useful to the people it is meant to support. Our goal is not simply to
+          prove that AI can make content. It is to find the point where AI-created or AI-assisted
+          content still delivers real value to the learner.
+        </p>
+        <p>
+          Your feedback helps us see that more clearly. By reacting to different formats without
+          being told how they were made upfront, you helped us compare perceived quality against the
+          production method behind the scenes. That gives us a much better picture of where AI is
+          already effective, where human craft still makes the biggest difference, and how we should
+          design future content experiences more thoughtfully.
+        </p>
       </div>
 
       <div class="card" style="background: #f8f6f0; border: 1px solid rgba(35,64,59,.1);">
@@ -382,6 +462,18 @@ function renderDebrief(container) {
         </p>
       </div>
     </div>`;
+}
+
+function renderProcessDisclosure(assetType, method) {
+  const steps = PROCESS_SUMMARIES[assetType][method];
+
+  return `
+    <details class="debrief-details">
+      <summary>See production steps used</summary>
+      <ul>
+        ${steps.map((step) => `<li>${step}</li>`).join('')}
+      </ul>
+    </details>`;
 }
 
 function renderThankyou(container) {

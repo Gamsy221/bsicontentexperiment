@@ -346,6 +346,7 @@ p {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: var(--sp-4);
+  align-items: start;
 }
 
 .debrief-item {
@@ -373,6 +374,57 @@ p {
 .debrief-item p {
   font-size: 14px;
   color: #555;
+}
+
+.debrief-reflection {
+  background: linear-gradient(180deg, #fffdf8 0%, #f8f3e7 100%);
+  border: 1px solid rgba(180,115,81,.18);
+}
+
+.debrief-reflection h3 {
+  margin-bottom: var(--sp-3);
+}
+
+.debrief-reflection p {
+  width: 100%;
+  max-width: 92ch;
+  color: #4f4c46;
+}
+
+.debrief-reflection p + p {
+  margin-top: var(--sp-3);
+}
+
+.debrief-details {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-3);
+  border-top: 1px solid rgba(35,64,59,.08);
+}
+
+.debrief-details summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--alpine);
+}
+
+.debrief-details summary:hover {
+  color: var(--arches);
+}
+
+.debrief-details ul {
+  margin: var(--sp-3) 0 0;
+  padding-left: 18px;
+  color: #5a5955;
+}
+
+.debrief-details li + li {
+  margin-top: 8px;
+}
+
+.debrief-details li {
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .badge {
