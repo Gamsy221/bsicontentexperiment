@@ -1,0 +1,12 @@
+{
+  "name": "experiment-api",
+  "version": "1.0.0",
+  "description": "Survey submission API for the AI Content Experiment site",
+  "main": "index.js",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@azure/data-tables": "^13.2.2"
+  }
+}
